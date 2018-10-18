@@ -26,7 +26,11 @@ app.put( "/log", webLog );
 app.post("/log", webLog );
 
 app.get("/list", (req,res)=>{
-    res.render('loglist');
+    fileLogger.readLogFile()
+    .then( lines=>{
+        console.log( lines );
+        res.render("loglist", { title : "Logs from file", logs: lines } );
+    });
 });
 
 let server = app.listen(port);
