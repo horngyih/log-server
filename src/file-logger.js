@@ -1,6 +1,7 @@
 // jshint esversion: 6
 
 const _fs = require("fs");
+const _readline = require("readline");
 
 function FileLog( filename ){
     this.file = filename;
@@ -29,6 +30,17 @@ function prepareLog( data ){
     let millisecond = ""+(now.getMilliseconds()/1000);
     log += `${year}-${month}-${date} ${hour}:${minute}:${second}${millisecond.substring(millisecond.indexOf("."))} `;
     return log += JSON.stringify(data);
+}
+
+FileLog.prototype.readLogFile = function readLogFile(){
+    return new Promise((resolve,reject)=>{
+        let lines = [];
+        _readline.createInterface({
+            input: _fs.createReadStream(this.file)
+        })
+        .on("line", (line)=>lines.push(line) )
+        .on("close",()=>resolve(lines));
+    });
 }
 
 FileLog.prototype.log = function log( data ){
