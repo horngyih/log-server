@@ -1,9 +1,8 @@
 <section>
-    <h1>Logs</h1>
+    <h1>{{title}}</h1>
     <ul>
-        <li>
-            <span class="date">Date</span>
-            <span class="message">Message</span>
-        </li>
+        {{#each logs}}
+        <li>{{this}}</li>
+        {{/each}}
     </ul>
 </section>
