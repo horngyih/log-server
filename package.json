@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "clean" : "rm web.log",
-    "start" : "node src/log-server",
+    "clean": "rm web.log",
+    "start": "node src/log-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,7 +14,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.0"
   },
   "devDependencies": {
     "mocha": "^5.2.0"
