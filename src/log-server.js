@@ -20,7 +20,7 @@ app.engine( 'hbs', _expresshbs({defaultLayout:'main',extname:'.hbs',layoutsDir:'
 app.set('views', 'src/views/');
 app.set('view engine', 'hbs' );
 
-app.all( "/shutdown", shutdown );
+app.all( "/shutdown", doShutdown );
 app.all( "/ping", (req, res)=>res.send("PONG"));
 app.put( "/log", webLog );
 app.post("/log", webLog );
@@ -31,17 +31,31 @@ app.get("/list", (req,res)=>{
 
 let server = app.listen(port);
 
+process.on( "SIGINT", shutdown );
+
 function webLog( req, res ){
     if( req.body ){
         fileLogger.log( req.body.toString() );
     }
     res.send("OK");
+    res.end();
 }
 
-function shutdown( req, res){
+function doShutdown( req, res){
     if( server ){
         fileLogger.log( `Close call originated from ${req.ip}` );
         res.send("OK");
-        server.close();
+        shutdown();
     }
+}
+
+function shutdown(){
+    console.log( "Shutting down..." );
+    server.close();
+    exit();
+}
+
+function exit(delay){
+    delay = delay || 5000;
+    setTimeout(()=>process.exit(0), delay );
 }
